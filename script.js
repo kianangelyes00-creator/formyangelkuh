@@ -8,7 +8,7 @@ $(document).ready(function () {
   var musicEnabled = true;
 
   // MP3 background music
-  var bgAudio = new Audio("assets/music/background.mp3");
+  var bgAudio = new Audio("papahiram.mp3");
   bgAudio.loop = true;
   bgAudio.volume = 0.15;
 
@@ -64,3 +64,4 @@ $(document).ready(function () {
     stopMusic();
   }
 });
+
