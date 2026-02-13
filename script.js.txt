@@ -1,0 +1,178 @@
+$(document).ready(function () {
+  var envelope = $("#envelope");
+  var btn_open = $("#open");
+  var btn_reset = $("#reset");
+  var btn_music = $("#music-toggle");
+
+  var audioCtx = null;
+  var musicPlaying = false;
+  var musicEnabled = true;
+  var scheduledNodes = [];
+  var loopTimer = null;
+
+  // Romantic melody notes (frequency in Hz) — a gentle, dreamy sequence
+  var melodyNotes = [
+    { freq: 523.25, dur: 0.6 },  // C5
+    { freq: 659.25, dur: 0.6 },  // E5
+    { freq: 783.99, dur: 0.9 },  // G5
+    { freq: 698.46, dur: 0.6 },  // F5
+    { freq: 659.25, dur: 0.6 },  // E5
+    { freq: 523.25, dur: 0.9 },  // C5
+    { freq: 587.33, dur: 0.6 },  // D5
+    { freq: 659.25, dur: 0.6 },  // E5
+    { freq: 698.46, dur: 0.9 },  // F5
+    { freq: 659.25, dur: 0.6 },  // E5
+    { freq: 587.33, dur: 0.6 },  // D5
+    { freq: 523.25, dur: 1.2 },  // C5
+    { freq: 392.00, dur: 0.6 },  // G4
+    { freq: 440.00, dur: 0.6 },  // A4
+    { freq: 523.25, dur: 0.9 },  // C5
+    { freq: 493.88, dur: 0.6 },  // B4
+    { freq: 440.00, dur: 0.6 },  // A4
+    { freq: 392.00, dur: 1.2 },  // G4
+  ];
+
+  function initAudio() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === "suspended") {
+      audioCtx.resume();
+    }
+  }
+
+  function playMelody() {
+    if (!audioCtx || !musicEnabled) return;
+
+    var startTime = audioCtx.currentTime + 0.1;
+    var offset = 0;
+
+    // Master gain for overall volume
+    var masterGain = audioCtx.createGain();
+    masterGain.gain.value = 0.15;
+    masterGain.connect(audioCtx.destination);
+    scheduledNodes.push(masterGain);
+
+    melodyNotes.forEach(function (note) {
+      // Main tone (sine wave — soft and warm)
+      var osc = audioCtx.createOscillator();
+      osc.type = "sine";
+      osc.frequency.value = note.freq;
+
+      // Gentle envelope for each note
+      var noteGain = audioCtx.createGain();
+      var noteStart = startTime + offset;
+      var noteEnd = noteStart + note.dur;
+
+      noteGain.gain.setValueAtTime(0, noteStart);
+      noteGain.gain.linearRampToValueAtTime(0.6, noteStart + 0.08);
+      noteGain.gain.linearRampToValueAtTime(0.4, noteStart + note.dur * 0.5);
+      noteGain.gain.linearRampToValueAtTime(0, noteEnd);
+
+      osc.connect(noteGain);
+      noteGain.connect(masterGain);
+
+      osc.start(noteStart);
+      osc.stop(noteEnd + 0.05);
+      scheduledNodes.push(osc, noteGain);
+
+      // Soft harmony an octave lower
+      var osc2 = audioCtx.createOscillator();
+      osc2.type = "sine";
+      osc2.frequency.value = note.freq / 2;
+
+      var harmGain = audioCtx.createGain();
+      harmGain.gain.setValueAtTime(0, noteStart);
+      harmGain.gain.linearRampToValueAtTime(0.15, noteStart + 0.1);
+      harmGain.gain.linearRampToValueAtTime(0.1, noteStart + note.dur * 0.5);
+      harmGain.gain.linearRampToValueAtTime(0, noteEnd);
+
+      osc2.connect(harmGain);
+      harmGain.connect(masterGain);
+
+      osc2.start(noteStart);
+      osc2.stop(noteEnd + 0.05);
+      scheduledNodes.push(osc2, harmGain);
+
+      offset += note.dur;
+    });
+
+    // Loop the melody
+    var totalDuration = offset;
+    loopTimer = setTimeout(function () {
+      if (musicPlaying && musicEnabled) {
+        playMelody();
+      }
+    }, totalDuration * 1000);
+  }
+
+  function startMusic() {
+    if (musicPlaying) return;
+    initAudio();
+    musicPlaying = true;
+    btn_music.addClass("active");
+    playMelody();
+  }
+
+  function stopMusic() {
+    musicPlaying = false;
+    btn_music.removeClass("active");
+    if (loopTimer) {
+      clearTimeout(loopTimer);
+      loopTimer = null;
+    }
+    // Fade out current sounds
+    if (audioCtx) {
+      var now = audioCtx.currentTime;
+      scheduledNodes.forEach(function (node) {
+        try {
+          if (node instanceof GainNode) {
+            node.gain.cancelScheduledValues(now);
+            node.gain.setValueAtTime(node.gain.value, now);
+            node.gain.linearRampToValueAtTime(0, now + 0.3);
+          }
+          if (node instanceof OscillatorNode) {
+            node.stop(now + 0.35);
+          }
+        } catch (e) {
+          // node may have already stopped
+        }
+      });
+      scheduledNodes = [];
+    }
+  }
+
+  // Music toggle button
+  btn_music.click(function (e) {
+    e.stopPropagation();
+    musicEnabled = !musicEnabled;
+    if (musicEnabled && envelope.hasClass("open")) {
+      startMusic();
+    } else if (!musicEnabled) {
+      stopMusic();
+    }
+    btn_music.toggleClass("muted", !musicEnabled);
+    btn_music.html(musicEnabled ? "&#9835; Music" : "&#9835; Muted");
+  });
+
+  envelope.click(function () {
+    open();
+  });
+  btn_open.click(function () {
+    open();
+  });
+  btn_reset.click(function () {
+    close();
+  });
+
+  function open() {
+    envelope.addClass("open").removeClass("close");
+    if (musicEnabled) {
+      startMusic();
+    }
+  }
+  function close() {
+    envelope.addClass("close").removeClass("open");
+    stopMusic();
+  }
+});

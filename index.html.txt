@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Love Letter For Asawakuh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="floating-hearts" aria-hidden="true">
+      <span class="fh fh1">&hearts;</span>
+      <span class="fh fh2">&hearts;</span>
+      <span class="fh fh3">&hearts;</span>
+      <span class="fh fh4">&hearts;</span>
+      <span class="fh fh5">&hearts;</span>
+      <span class="fh fh6">&hearts;</span>
+      <span class="fh fh7">&hearts;</span>
+      <span class="fh fh8">&hearts;</span>
+    </div>
+
+    <div class="page-title">
+      <p class="subtitle">tap the envelope</p>
+    </div>
+
+    <div class="envlope-wrapper">
+      <div id="envelope" class="close">
+        <div class="front flap"></div>
+        <div class="front pocket"></div>
+        <div class="letter">
+          <div class="words line1">Dear asawakuh,</div>
+          <div class="words line2">Loving you is the easiest and most beautiful thing I've ever done.</div>
+          <div class="words line3">When I'm with you, the world disappears and it's just us.</div>
+          <div class="words line4">I promise to cherish you, adore you, and love you endlessly.</div>
+        </div>
+        <div class="hearts">
+          <div class="heart a1"></div>
+          <div class="heart a2"></div>
+          <div class="heart a3"></div>
+        </div>
+      </div>
+    </div>
+    <div class="reset">
+      <button id="open">Open</button>
+      <button id="reset">Close</button>
+      <button id="music-toggle" class="music-btn" title="Toggle music">&#9835; Music</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
