@@ -7,36 +7,38 @@ $(document).ready(function () {
   var musicPlaying = false;
   var musicEnabled = true;
 
-  // ADD YOUR MP3 HERE
-  var audio = new Audio("assets/music/background.mp3");
-  audio.loop = true;
-  audio.volume = 0.15;
+  // NEW: MP3 background music
+  var bgAudio = new Audio("assets/music/background.mp3");
+  bgAudio.loop = true;
+  bgAudio.volume = 0.15;
 
+  // START MUSIC: play MP3 instead of melody
   function startMusic() {
     if (musicPlaying) return;
     musicPlaying = true;
     btn_music.addClass("active");
-    audio.play();
+    if (musicEnabled) {
+      bgAudio.play();
+    }
   }
 
+  // STOP MUSIC: stop MP3
   function stopMusic() {
     musicPlaying = false;
     btn_music.removeClass("active");
-    audio.pause();
-    audio.currentTime = 0;
+    bgAudio.pause();
+    bgAudio.currentTime = 0;
   }
 
   // Music toggle button
   btn_music.click(function (e) {
     e.stopPropagation();
     musicEnabled = !musicEnabled;
-
     if (musicEnabled && envelope.hasClass("open")) {
       startMusic();
-    } else {
+    } else if (!musicEnabled) {
       stopMusic();
     }
-
     btn_music.toggleClass("muted", !musicEnabled);
     btn_music.html(musicEnabled ? "&#9835; Music" : "&#9835; Muted");
   });
