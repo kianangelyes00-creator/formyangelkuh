@@ -7,8 +7,8 @@ $(document).ready(function () {
   var musicPlaying = false;
   var musicEnabled = true;
 
-  // MP3 background music
-  var bgAudio = new Audio("papahiram.mp3");
+  // Replace with your MP3 path (can be outside folder or online URL)
+  var bgAudio = new Audio("papahiram.mp3"); // <-- update path if needed
   bgAudio.loop = true;
   bgAudio.volume = 0.15;
 
@@ -17,8 +17,8 @@ $(document).ready(function () {
     musicPlaying = true;
     btn_music.addClass("active");
     if (musicEnabled) {
-      bgAudio.play().catch(function(err){
-        console.log("Audio play blocked by browser:", err);
+      bgAudio.play().catch(function (err) {
+        console.warn("Audio playback failed:", err);
       });
     }
   }
@@ -36,32 +36,25 @@ $(document).ready(function () {
     musicEnabled = !musicEnabled;
     if (musicEnabled && envelope.hasClass("open")) {
       startMusic();
-    } else if (!musicEnabled) {
+    } else {
       stopMusic();
     }
     btn_music.toggleClass("muted", !musicEnabled);
     btn_music.html(musicEnabled ? "&#9835; Music" : "&#9835; Muted");
   });
 
-  envelope.click(function () {
-    open();
-  });
-  btn_open.click(function () {
-    open();
-  });
-  btn_reset.click(function () {
-    close();
-  });
+  // Envelope open/close
+  envelope.click(open);
+  btn_open.click(open);
+  btn_reset.click(close);
 
   function open() {
     envelope.addClass("open").removeClass("close");
-    if (musicEnabled) {
-      startMusic();
-    }
+    if (musicEnabled) startMusic();
   }
+
   function close() {
     envelope.addClass("close").removeClass("open");
     stopMusic();
   }
 });
-
