@@ -7,22 +7,22 @@ $(document).ready(function () {
   var musicPlaying = false;
   var musicEnabled = true;
 
-  // NEW: MP3 background music
+  // MP3 background music
   var bgAudio = new Audio("assets/music/background.mp3");
   bgAudio.loop = true;
   bgAudio.volume = 0.15;
 
-  // START MUSIC: play MP3 instead of melody
   function startMusic() {
     if (musicPlaying) return;
     musicPlaying = true;
     btn_music.addClass("active");
     if (musicEnabled) {
-      bgAudio.play();
+      bgAudio.play().catch(function(err){
+        console.log("Audio play blocked by browser:", err);
+      });
     }
   }
 
-  // STOP MUSIC: stop MP3
   function stopMusic() {
     musicPlaying = false;
     btn_music.removeClass("active");
