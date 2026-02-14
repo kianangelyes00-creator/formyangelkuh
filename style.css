@@ -1,205 +1,299 @@
-/* ================= RESET ================= */
+/* ===== Base / Background ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ================= BODY ================= */
 body {
   min-height: 100vh;
+  min-height: 100dvh;
+  background: linear-gradient(
+    135deg,
+    #fce4ec 0%,
+    #f8bbd0 30%,
+    #f48fb1 60%,
+    #e1bee7 100%
+  );
+  background-attachment: fixed;
+  overflow-x: hidden;
+  font-family: "Lora", Georgia, serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #d98aa0, #e6a4c4);
-  font-family: "Georgia", serif;
 }
 
-/* ================= TAP TEXT ================= */
-.tap-text {
-  margin-bottom: 25px;
-  color: #b3003c;
-  font-size: 22px;
-  letter-spacing: 1px;
+/* ===== Floating background hearts ===== */
+.floating-hearts {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
 }
 
-/* ================= ENVELOPE WRAPPER ================= */
-.envelope-wrapper {
+.fh {
+  position: absolute;
+  bottom: -60px;
+  color: rgba(255, 82, 82, 0.18);
+  font-size: 2rem;
+  animation: floatUp linear infinite;
+}
+
+.fh1 { left: 5%;  font-size: 1.5rem; animation-duration: 12s; animation-delay: 0s; }
+.fh2 { left: 15%; font-size: 2.5rem; animation-duration: 10s; animation-delay: 2s; }
+.fh3 { left: 30%; font-size: 1.8rem; animation-duration: 14s; animation-delay: 1s; }
+.fh4 { left: 45%; font-size: 2.2rem; animation-duration: 11s; animation-delay: 3s; }
+.fh5 { left: 60%; font-size: 1.6rem; animation-duration: 13s; animation-delay: 0.5s; }
+.fh6 { left: 72%; font-size: 2.8rem; animation-duration: 9s;  animation-delay: 4s; }
+.fh7 { left: 85%; font-size: 1.4rem; animation-duration: 15s; animation-delay: 1.5s; }
+.fh8 { left: 92%; font-size: 2rem;  animation-duration: 11s; animation-delay: 2.5s; }
+
+@keyframes floatUp {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-110vh) rotate(40deg); opacity: 0; }
+}
+
+/* ===== Page Title ===== */
+.page-title {
+  text-align: center;
+  padding-top: 16px;
+  padding-bottom: 8px;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.subtitle {
+  font-family: "Lora", Georgia, serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: #ad1457;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+/* ===== Envelope ===== */
+.envlope-wrapper {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding-top: 40px;
+  padding-bottom: 20px;
+}
+
+#envelope {
   position: relative;
   width: 380px;
   height: 260px;
-  perspective: 1000px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background-color: #c62828;
+  box-shadow:
+    0 8px 32px rgba(198, 40, 40, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.15);
   cursor: pointer;
+  transition: box-shadow 0.3s ease;
 }
 
-/* ================= ENVELOPE ================= */
-.envelope {
-  position: relative;
-  width: 100%;
-  height: 100%;
+#envelope:hover {
+  box-shadow:
+    0 12px 40px rgba(198, 40, 40, 0.45),
+    0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* ================= FRONT ================= */
 .front {
   position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-/* ================= FLAP ================= */
-.flap {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
   width: 0;
   height: 0;
+  z-index: 3;
+}
+
+.flap {
   border-left: 190px solid transparent;
   border-right: 190px solid transparent;
-  border-top: 140px solid #c62828;
   border-bottom: 120px solid transparent;
-  transform-origin: top center;
-  transition: transform 0.6s ease;
-  z-index: 4;
-  backface-visibility: hidden;
+  border-top: 140px solid #c62828;
+  transform-origin: top;
+  pointer-events: none;
 }
 
-/* ================= POCKET ================= */
 .pocket {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
   border-left: 190px solid #ef9a9a;
   border-right: 190px solid #ef9a9a;
   border-bottom: 130px solid #e57373;
   border-top: 130px solid transparent;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  z-index: 3;
 }
 
-/* ================= LETTER ================= */
+/* ===== Letter ===== */
 .letter {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
-  width: 85%;
-  height: 65%;
-  background: #fffafc;
-  border-radius: 10px;
-  padding: 20px 25px;
+  position: relative;
+  background-color: #fffdf7;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  top: 5%;
+  border-radius: 8px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+  padding: 20px 24px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 10px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-  transition: transform 0.6s ease;
-  z-index: 1;
+  gap: 6px;
+}
+
+.letter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: repeating-linear-gradient(
+    transparent,
+    transparent 28px,
+    rgba(198, 40, 40, 0.06) 28px,
+    rgba(198, 40, 40, 0.06) 29px
+  );
+  pointer-events: none;
+}
+
+.words {
+  position: relative;
+  font-family: "Playfair Display", Georgia, serif;
+  color: #4a1a2e;
+  line-height: 1.5;
+  background: none;
+}
+
+.words.line1 {
+  font-size: 1rem;
+  font-style: italic;
+  color: #880e4f;
+  margin-bottom: 8px;
+}
+
+.words.line2,
+.words.line3,
+.words.line4 {
   text-align: center;
-  color: #4a2c2c;
-  line-height: 1.4;
+  font-size: 1.1rem;
 }
 
-/* ================= OPEN STATE ================= */
+.words.line4 {
+  font-style: italic;
+}
+
+/* ===== Envelope open/close animations ===== */
 .open .flap {
-  transform: translateX(-50%) rotateX(180deg);
-  z-index: 0;
+  transform: rotateX(180deg);
+  transition: transform 0.4s ease, z-index 0.6s;
+  z-index: 1;
 }
 
-.open .letter {
-  transform: translate(-50%, -100px);
-}
-
-/* ================= CLOSE STATE ================= */
 .close .flap {
-  transform: translateX(-50%) rotateX(0deg);
-  z-index: 4;
+  transform: rotateX(0deg);
+  transition: transform 0.4s 0.6s ease, z-index 1s;
+  z-index: 5;
 }
 
 .close .letter {
-  transform: translate(-50%, 0);
+  transform: translateY(0);
+  transition: transform 0.4s ease, z-index 1s;
+  z-index: 1;
 }
 
-/* ================= BUTTONS ================= */
-.buttons {
-  margin-top: 35px;
-  display: flex;
-  gap: 20px;
+.open .letter {
+  transform: translateY(-180px);
+  transition: transform 0.4s 0.6s ease, z-index 0.6s;
+  z-index: 2;
 }
 
-button {
-  padding: 12px 28px;
-  border-radius: 30px;
-  border: 2px solid #c62828;
-  background: transparent;
-  color: #c62828;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+/* ===== Hearts floating out of envelope ===== */
+.hearts {
+  position: absolute;
+  top: 120px;
+  left: 0;
+  right: 0;
+  z-index: 2;
 }
 
-button:hover {
-  background: #c62828;
-  color: white;
-  transform: translateY(-2px);
-}
-
-/* ================= MUSIC BUTTON ================= */
-.music-btn {
-  background: #c62828;
-  color: white;
-  border: none;
-}
-
-.music-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-}
-
-/* ================= FLOATING HEART ================= */
 .heart {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  font-size: 24px;
-  color: #ff6f91;
-  animation: float 3s ease-in-out infinite;
+  position: absolute;
+  bottom: 0;
+  right: 10%;
+  pointer-events: none;
 }
 
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
-  100% { transform: translateY(0); }
+.heart::before,
+.heart::after {
+  position: absolute;
+  content: "";
+  left: 50px;
+  top: 0;
+  width: 50px;
+  height: 80px;
+  background: #e91e63;
+  border-radius: 50px 50px 0 0;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+  pointer-events: none;
 }
 
-/* ================= RESPONSIVE ================= */
-@media (max-width: 480px) {
+.heart::after {
+  left: 0;
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
 
-  .envelope-wrapper {
-    width: 300px;
-    height: 200px;
-  }
+.close .heart {
+  opacity: 0;
+  animation: none;
+}
 
-  .flap {
-    border-left: 150px solid transparent;
-    border-right: 150px solid transparent;
-    border-top: 110px solid #c62828;
-    border-bottom: 90px solid transparent;
-  }
+.a1 {
+  left: 20%;
+  transform: scale(0.5);
+  opacity: 1;
+  animation: slideUp 4s linear 1,
+             sideSway 2s ease-in-out 4 alternate;
+  animation-fill-mode: forwards;
+  animation-delay: 0.7s;
+}
 
-  .pocket {
-    border-left: 150px solid #ef9a9a;
-    border-right: 150px solid #ef9a9a;
-    border-bottom: 100px solid #e57373;
-    border-top: 100px solid transparent;
-  }
+.a2 {
+  left: 55%;
+  transform: scale(0.85);
+  opacity: 1;
+  animation: slideUp 5s linear 1,
+             sideSway 4s ease-in-out 2 alternate;
+  animation-fill-mode: forwards;
+  animation-delay: 0.7s;
+}
 
-  .open .letter {
-    transform: translate(-50%, -75px);
-  }
+.a3 {
+  left: 10%;
+  transform: scale(0.65);
+  opacity: 1;
+  animation: slideUp 7s linear 1,
+             sideSway 2s ease-in-out 6 alternate;
+  animation-fill-mode: forwards;
+  animation-delay: 0.7s;
+}
+
+@keyframes slideUp {
+  from { top: 0; }
+  to   { top: -600px; }
+}
+
+@keyframes sideSway {
+  from { margin-left: 0; }
+  to   { margin-left: 50px; }
 }
