@@ -7,7 +7,6 @@
 
 body {
   min-height: 100vh;
-  min-height: 100dvh;
   background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 30%, #f48fb1 60%, #e1bee7 100%);
   background-attachment: fixed;
   overflow-x: hidden;
@@ -18,7 +17,7 @@ body {
   justify-content: center;
 }
 
-/* ===== Floating background hearts ===== */
+/* ===== Floating Hearts ===== */
 .floating-hearts {
   position: fixed;
   inset: 0;
@@ -35,140 +34,134 @@ body {
   animation: floatUp linear infinite;
 }
 
-.fh1 { left: 5%;  font-size: 1.5rem; animation-duration: 12s; animation-delay: 0s; }
-.fh2 { left: 15%; font-size: 2.5rem; animation-duration: 10s; animation-delay: 2s; }
-.fh3 { left: 30%; font-size: 1.8rem; animation-duration: 14s; animation-delay: 1s; }
-.fh4 { left: 45%; font-size: 2.2rem; animation-duration: 11s; animation-delay: 3s; }
-.fh5 { left: 60%; font-size: 1.6rem; animation-duration: 13s; animation-delay: 0.5s; }
-.fh6 { left: 72%; font-size: 2.8rem; animation-duration: 9s;  animation-delay: 4s; }
-.fh7 { left: 85%; font-size: 1.4rem; animation-duration: 15s; animation-delay: 1.5s; }
-.fh8 { left: 92%; font-size: 2rem;   animation-duration: 11s; animation-delay: 2.5s; }
+.fh1 { left: 5%;  animation-duration: 12s; }
+.fh2 { left: 15%; animation-duration: 10s; }
+.fh3 { left: 30%; animation-duration: 14s; }
+.fh4 { left: 45%; animation-duration: 11s; }
+.fh5 { left: 60%; animation-duration: 13s; }
+.fh6 { left: 75%; animation-duration: 9s; }
+.fh7 { left: 85%; animation-duration: 15s; }
+.fh8 { left: 92%; animation-duration: 11s; }
 
 @keyframes floatUp {
-  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  0% { transform: translateY(0); opacity: 0; }
   10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translateY(-110vh) rotate(40deg); opacity: 0; }
+  100% { transform: translateY(-110vh); opacity: 0; }
 }
 
-/* ===== Page Title ===== */
+/* ===== Title ===== */
 .page-title {
   text-align: center;
-  padding-top: 16px;
-  padding-bottom: 8px;
-  position: relative;
+  margin-bottom: 10px;
   z-index: 1;
 }
 
 .subtitle {
-  font-family: "Lora", Georgia, serif;
   font-style: italic;
   font-size: 1.1rem;
   color: #ad1457;
-  letter-spacing: 0.05em;
   opacity: 0.8;
 }
 
-/* ===== Envelope ===== */
+/* ===== Envelope Wrapper ===== */
 .envlope-wrapper {
   position: relative;
   z-index: 1;
-  padding-top: 40px;
-  padding-bottom: 20px;
 }
 
+/* ===== Envelope Body ===== */
 #envelope {
   position: relative;
   width: 380px;
   height: 260px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
   background-color: #c62828;
-  box-shadow: 0 8px 32px rgba(198, 40, 40, 0.35), 0 2px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 8px 32px rgba(198, 40, 40, 0.35);
   cursor: pointer;
-  overflow: hidden; /* 🔥 THIS FIXES THE LEAKING LETTER */
+  overflow: hidden;
 }
 
-#envelope:hover {
-  box-shadow: 0 12px 40px rgba(198, 40, 40, 0.45), 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
+/* ===== Envelope Front Shapes ===== */
 .front {
   position: absolute;
   width: 0;
   height: 0;
-  z-index: 3;
 }
 
+/* Flap */
 .flap {
+  z-index: 4;
   border-left: 190px solid transparent;
   border-right: 190px solid transparent;
-  border-bottom: 120px solid transparent;
   border-top: 140px solid #c62828;
+  border-bottom: 120px solid transparent;
   transform-origin: top;
-  pointer-events: none;
+  transition: transform 0.5s ease;
 }
 
+/* Pocket */
 .pocket {
+  z-index: 3;
   border-left: 190px solid #ef9a9a;
   border-right: 190px solid #ef9a9a;
   border-bottom: 130px solid #e57373;
   border-top: 130px solid transparent;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
+  border-radius: 0 0 8px 8px;
 }
 
-/* ===== Letter (Properly Positioned) ===== */
+/* ===== Letter ===== */
 .letter {
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 88%;
-  height: 70%;
+  width: 85%;
+  height: 65%;
   background: #fffafc;
   border-radius: 8px;
-  padding: 24px 26px;
+  padding: 22px 24px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
   transition: transform 0.5s ease;
   z-index: 1;
 }
 
-/* Better Typography */
+/* ===== Typography ===== */
 .words {
   font-family: "Playfair Display", serif;
   color: #5c2a3a;
-  line-height: 1.8;
+  line-height: 1.7;
   text-align: center;
 }
 
 .words.line1 {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-style: italic;
   color: #ad1457;
-  margin-bottom: 6px;
 }
 
 .words.line2,
-.words.line3 {
-  font-size: 1rem;
-}
-
+.words.line3,
 .words.line4 {
   font-size: 1rem;
-  font-style: italic;
-  margin-top: 6px;
 }
 
-/* ===== Envelope Animation FIXED ===== */
+/* ===== Open / Close Animation ===== */
+.open .flap {
+  transform: rotateX(180deg);
+  z-index: 0;
+}
+
+.close .flap {
+  transform: rotateX(0deg);
+  z-index: 4;
+}
 
 .open .letter {
-  transform: translate(-50%, -100px);
-  z-index: 2;
+  transform: translate(-50%, -90px);
 }
 
 .close .letter {
@@ -177,43 +170,39 @@ body {
 
 /* ===== Buttons ===== */
 .reset {
+  margin-top: 20px;
   text-align: center;
-  position: relative;
   z-index: 1;
-  padding: 16px 0;
 }
 
 .reset button {
-  font-family: "Lora", Georgia, serif;
+  font-family: "Lora", serif;
   font-weight: 700;
-  background-color: transparent;
-  border: solid 2px #c62828;
+  background: transparent;
+  border: 2px solid #c62828;
   border-radius: 30px;
   color: #c62828;
-  font-size: 15px;
-  text-transform: uppercase;
+  font-size: 14px;
   letter-spacing: 0.1em;
-  margin: 5px;
-  padding: 12px 32px;
-  min-width: 130px;
+  margin: 6px;
+  padding: 12px 28px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: 0.2s ease;
 }
 
 .reset button:hover {
   background-color: #c62828;
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(198, 40, 40, 0.3);
+  color: white;
 }
 
-/* ===== Music Button ===== */
+/* ===== Music Button States ===== */
 .music-btn.active {
   background-color: #c62828;
-  color: #fff;
+  color: white;
 }
 
 .music-btn.muted {
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 /* ===== Responsive ===== */
@@ -227,26 +216,27 @@ body {
     border-left: 150px solid transparent;
     border-right: 150px solid transparent;
     border-top: 120px solid #c62828;
+    border-bottom: 100px solid transparent;
   }
 
   .pocket {
     border-left: 150px solid #ef9a9a;
     border-right: 150px solid #ef9a9a;
     border-bottom: 110px solid #e57373;
+    border-top: 110px solid transparent;
   }
 
   .letter {
-    height: 70%;
+    width: 85%;
+    height: 65%;
     padding: 16px;
   }
 
   .open .letter {
-    transform: translateY(-100px);
+    transform: translate(-50%, -70px);
   }
 
   .words {
     font-size: 0.9rem;
   }
 }
-
-
