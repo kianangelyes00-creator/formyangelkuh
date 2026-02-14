@@ -1,242 +1,200 @@
-/* ===== Base / Background ===== */
+/* ================= RESET ================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* ================= BODY ================= */
 body {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 30%, #f48fb1 60%, #e1bee7 100%);
-  background-attachment: fixed;
-  overflow-x: hidden;
-  font-family: "Lora", Georgia, serif;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-/* ===== Floating Hearts ===== */
-.floating-hearts {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
+  background: linear-gradient(135deg, #d98aa0, #e6a4c4);
+  font-family: "Georgia", serif;
   overflow: hidden;
 }
 
-.fh {
-  position: absolute;
-  bottom: -60px;
-  color: rgba(255, 82, 82, 0.18);
-  font-size: 2rem;
-  animation: floatUp linear infinite;
+/* ================= TAP TEXT ================= */
+.tap-text {
+  margin-bottom: 20px;
+  color: #b3003c;
+  font-size: 22px;
+  letter-spacing: 1px;
 }
 
-.fh1 { left: 5%;  animation-duration: 12s; }
-.fh2 { left: 15%; animation-duration: 10s; }
-.fh3 { left: 30%; animation-duration: 14s; }
-.fh4 { left: 45%; animation-duration: 11s; }
-.fh5 { left: 60%; animation-duration: 13s; }
-.fh6 { left: 75%; animation-duration: 9s; }
-.fh7 { left: 85%; animation-duration: 15s; }
-.fh8 { left: 92%; animation-duration: 11s; }
-
-@keyframes floatUp {
-  0% { transform: translateY(0); opacity: 0; }
-  10% { opacity: 1; }
-  100% { transform: translateY(-110vh); opacity: 0; }
-}
-
-/* ===== Title ===== */
-.page-title {
-  text-align: center;
-  margin-bottom: 10px;
-  z-index: 1;
-}
-
-.subtitle {
-  font-style: italic;
-  font-size: 1.1rem;
-  color: #ad1457;
-  opacity: 0.8;
-}
-
-/* ===== Envelope Wrapper ===== */
-.envlope-wrapper {
-  position: relative;
-  z-index: 1;
-}
-
-/* ===== Envelope Body ===== */
-#envelope {
+/* ================= ENVELOPE WRAPPER ================= */
+.envelope-wrapper {
   position: relative;
   width: 380px;
   height: 260px;
-  background-color: #c62828;
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 8px 32px rgba(198, 40, 40, 0.35);
+  perspective: 1000px;
   cursor: pointer;
-  overflow: hidden;
 }
 
-/* ===== Envelope Front Shapes ===== */
+/* ================= ENVELOPE ================= */
+.envelope {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ================= FRONT ================= */
 .front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* ================= FLAP ================= */
+.flap {
   position: absolute;
   width: 0;
   height: 0;
-}
-
-/* Flap */
-.flap {
-  z-index: 4;
   border-left: 190px solid transparent;
   border-right: 190px solid transparent;
   border-top: 140px solid #c62828;
   border-bottom: 120px solid transparent;
   transform-origin: top;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s ease;
+  z-index: 4;
+  backface-visibility: hidden;
 }
 
-/* Pocket */
+/* ================= POCKET ================= */
 .pocket {
-  z-index: 3;
+  position: absolute;
+  width: 0;
+  height: 0;
   border-left: 190px solid #ef9a9a;
   border-right: 190px solid #ef9a9a;
   border-bottom: 130px solid #e57373;
   border-top: 130px solid transparent;
-  border-radius: 0 0 8px 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  z-index: 3;
 }
 
-/* ===== Letter ===== */
+/* ================= LETTER ================= */
 .letter {
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, 0);
   width: 85%;
   height: 65%;
   background: #fffafc;
-  border-radius: 8px;
-  padding: 22px 24px;
+  border-radius: 10px;
+  padding: 20px 25px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 10px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
-  transition: transform 0.5s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: transform 0.6s ease;
   z-index: 1;
-}
-
-/* ===== Typography ===== */
-.words {
-  font-family: "Playfair Display", serif;
-  color: #5c2a3a;
-  line-height: 1.7;
   text-align: center;
+  color: #4a2c2c;
+  line-height: 1.4;
 }
 
-.words.line1 {
-  font-size: 1.1rem;
-  font-style: italic;
-  color: #ad1457;
-}
-
-.words.line2,
-.words.line3,
-.words.line4 {
-  font-size: 1rem;
-}
-
-/* ===== Open / Close Animation ===== */
+/* ================= OPEN STATE ================= */
 .open .flap {
   transform: rotateX(180deg);
   z-index: 0;
 }
 
+.open .letter {
+  transform: translate(-50%, -95px);
+}
+
+/* ================= CLOSE STATE ================= */
 .close .flap {
   transform: rotateX(0deg);
   z-index: 4;
-}
-
-.open .letter {
-  transform: translate(-50%, -90px);
 }
 
 .close .letter {
   transform: translate(-50%, 0);
 }
 
-/* ===== Buttons ===== */
-.reset {
-  margin-top: 20px;
-  text-align: center;
-  z-index: 1;
+/* ================= BUTTONS ================= */
+.buttons {
+  margin-top: 35px;
+  display: flex;
+  gap: 20px;
 }
 
-.reset button {
-  font-family: "Lora", serif;
-  font-weight: 700;
-  background: transparent;
-  border: 2px solid #c62828;
-  border-radius: 30px;
-  color: #c62828;
-  font-size: 14px;
-  letter-spacing: 0.1em;
-  margin: 6px;
+button {
   padding: 12px 28px;
+  border-radius: 30px;
+  border: 2px solid #c62828;
+  background: transparent;
+  color: #c62828;
+  font-size: 16px;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: all 0.3s ease;
 }
 
-.reset button:hover {
-  background-color: #c62828;
+button:hover {
+  background: #c62828;
   color: white;
+  transform: translateY(-2px);
 }
 
-/* ===== Music Button States ===== */
-.music-btn.active {
-  background-color: #c62828;
+/* ================= MUSIC BUTTON ================= */
+.music-btn {
+  background: #c62828;
   color: white;
+  border: none;
 }
 
-.music-btn.muted {
-  opacity: 0.6;
+.music-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 440px) {
-  #envelope {
+/* ================= FLOATING HEART ================= */
+.heart {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-size: 24px;
+  color: #ff6f91;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 480px) {
+
+  .envelope-wrapper {
     width: 300px;
-    height: 220px;
+    height: 200px;
   }
 
   .flap {
     border-left: 150px solid transparent;
     border-right: 150px solid transparent;
-    border-top: 120px solid #c62828;
-    border-bottom: 100px solid transparent;
+    border-top: 110px solid #c62828;
+    border-bottom: 90px solid transparent;
   }
 
   .pocket {
     border-left: 150px solid #ef9a9a;
     border-right: 150px solid #ef9a9a;
-    border-bottom: 110px solid #e57373;
-    border-top: 110px solid transparent;
-  }
-
-  .letter {
-    width: 85%;
-    height: 65%;
-    padding: 16px;
+    border-bottom: 100px solid #e57373;
+    border-top: 100px solid transparent;
   }
 
   .open .letter {
     transform: translate(-50%, -70px);
-  }
-
-  .words {
-    font-size: 0.9rem;
   }
 }
