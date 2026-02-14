@@ -86,7 +86,7 @@ body {
   background-color: #c62828;
   box-shadow: 0 8px 32px rgba(198, 40, 40, 0.35), 0 2px 8px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  transition: box-shadow 0.3s ease;
+  overflow: hidden; /* 🔥 THIS FIXES THE LEAKING LETTER */
 }
 
 #envelope:hover {
@@ -125,17 +125,17 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: 88%;
-  height: 72%;
-  background-color: #fffafc;
+  height: 70%;
+  background: #fffafc;
   border-radius: 8px;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
-  padding: 26px 28px;
+  padding: 24px 26px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.5s ease;
   z-index: 1;
-  transition: transform 0.6s ease;
 }
 
 /* Better Typography */
@@ -167,7 +167,7 @@ body {
 /* ===== Envelope Animation FIXED ===== */
 
 .open .letter {
-  transform: translate(-50%, -110px);
+  transform: translate(-50%, -100px);
   z-index: 2;
 }
 
@@ -248,4 +248,5 @@ body {
     font-size: 0.9rem;
   }
 }
+
 
